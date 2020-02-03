@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм» [![Build status][travis-image]][travis-url]
 
 * Студент: [Денис Шитов](https://up.htmlacademy.ru/javascript/19/user/1164801).
-* Наставник: `Неизвестно`.
+* Наставник: `Александр Пинаев`.
 
 ---
 
