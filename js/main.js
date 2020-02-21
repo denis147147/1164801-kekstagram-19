@@ -9,61 +9,80 @@ var COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-var DESCRIPTIONS = [
-  'Тустим новую камеру!',
-  'Затусили с друзьями на море',
-  'Как же круто тут кормят',
-  'Отдыхаем...',
-  'Цените каждое мгновенье. Цените тех, кто рядом с вами и отгоняйте все сомненья. Не обижайте всех словами......',
-  'Вот это тачка!'
-];
+  var userNames = [
+    'Cергей',
+    'Федя',
+    'Василий',
+    'Николай',
+    'Екатерина',
+    'Анастасия'
+  ];
 
-var minLikes = 15;
-var maxLikes = 200;
+    var avatarNumber = 6;
+    var commentsMin = 0;
+    var commentsMax = 30;
+    var userPosts = 25;
+    var minLikes = 15;
+    var maxLikes = 200;
 
-var totalPost = 25;
+    var randomNumber = function (from, to) {
+      return Math.round(Math.random() * (to - from) + from);
+    };
 
-var usersPhotos = [];
-for (var i = 0; i < totalPost; i++) {
-  usersPhotos[i] = i + 1;
-};
+    var getRandomItem = function (items) {
+      return items[randomNumber(0, items.length - 1)];
+    };
 
-var getRandomItem = function (arr) {
-  return Math.floor([Math.floor(Math.random() * (arr.length))], 1);
-};
+    var randomComment = function () {
+      return {
+        avatar: 'img/avatar-' + randomNumber(1, 6) + '.svg',
+        message: getRandomItem(COMMENTS),
+        name: getRandomItem(userNames)
+      };
+    };
 
-var getRandomItemRange = function (min, max) {
-  return Math.floor(min + Math.random() * (max + 1 - min));
-};
+    var randomComments = function () {
+      var comments = [];
+      for (var i = 0; i < avatarNumber; i++) {
+        comments.push(randomComment());
+      }
+      return comments;
+    };
 
-var getRandomArray = function (arr) {
-  return arr[Math.floor(Math.random() * (arr.length))];
-};
+    var randomUserPhotos = function () {
+      var randomUserPhotos = [];
+      for (var i = 0; i < userPosts; i++) {
+        randomUserPhotos.push({
+          url: 'photos/' + (i + 1) + '.jpg',
+          desctiption: 'Описание фотографии',
+          likes: randomNumber(minLikes, maxLikes),
+          comments: randomComments()
+        });
+      }
+      return randomUserPhotos;
+    };
 
-var newPhoto = function (usersPhotos, COMMENTS) {
-  this.url = 'photos/' + getRandomItem(usersPhotos) + '.jpg';
-  this.likes = getRandomItemRange(minLikes,maxLikes);
-  this.comments = getRandomArray(COMMENTS);
-};
+    var createUserPhotoElement = function (userPhoto) {
+      var userPhotoElement = userPhotoTemplateElement.cloneNode(true);
 
-var usersPosts = [];
-for (i = 0; i < totalPost; i++) {
-  usersPosts[i] = new newPhoto(usersPhotos, COMMENTS);
-};
+      userPhotoElement.querySelector('.picture__img').src = userPhoto.url;
+      userPhotoElement.querySelector('.picture__comments').textContent = userPhoto.comments.length + randomNumber(commentsMin, commentsMax);
+      userPhotoElement.querySelector('.picture__likes').textContent = userPhoto.likes;
 
-var pictureTemplate = document.querySelector('#picture');
-var pictureList = document.querySelector('.pictures');
+      return userPhotoElement;
+    };
 
-var renderPhoto = function (photo) {
-  var photoElement = pictureTemplate.cloneNode(true);
-  photoElement.querySelector('.picture__img') = photo.url;
-  photoElement.querySelector('.picture__likes') = photo.likes;
-  photoElement.querySelector('picture__comments') = photo.comments;
-  return photoElement;
-};
+    var renderUserPhotos = function (photos) {
+      var fragment = document.createDocumentFragment();
+      for (var i = 0; i < photos.length; i++) {
+        fragment.appendChild(createUserPhotoElement(photos[i]));
+      }
+      picturesElement.appendChild(fragment);
+    };
 
-var pictureSocial = document.querySelector('.social');
-pictureSocial.querySelector('img.social__picture').src = usersPosts[0].url;
-pictureSocial.querySelector('.social__likes').textContent = usersPosts[0].Likes;
-pictureSocial.querySelector('.social__comments').textContent = usersPosts[0].comments;
-pictureSocial.classList.remove('hidden');
+    var photos = randomUserPhotos();
+
+    var userPhotoTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
+    var picturesElement = document.querySelector('.pictures');
+
+    renderUserPhotos(photos);
