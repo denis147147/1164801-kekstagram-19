@@ -49,17 +49,17 @@ var randomComments = function () {
   return comments;
 };
 
-var randomUserPhoto = function () {
-  var randomUserPhoto = [];
+var generateRandomUserPhotos = function () {
+  var randomUserPhotos = [];
   for (var i = 0; i < userPosts; i++) {
-    randomUserPhoto.push({
+    randomUserPhotos.push({
       url: 'photos/' + (i + 1) + '.jpg',
       desctiption: 'Описание фотографии',
       likes: randomNumber(minLikes, maxLikes),
       comments: randomComments()
     });
   }
-  return randomUserPhoto;
+  return randomUserPhotos;
 };
 
 var createUserPhotoElement = function (userPhoto) {
@@ -80,7 +80,7 @@ var renderUserPhotos = function (photos) {
   picturesElement.appendChild(fragment);
 };
 
-var photos = randomUserPhoto();
+var photos = generateRandomUserPhotos();
 
 var userPhotoTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
 var picturesElement = document.querySelector('.pictures');
