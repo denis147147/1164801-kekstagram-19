@@ -9,85 +9,85 @@ var COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-  var userNames = [
-    'Cергей',
-    'Федя',
-    'Василий',
-    'Николай',
-    'Екатерина',
-    'Анастасия'
-  ];
+var userNames = [
+  'Cергей',
+  'Федя',
+  'Василий',
+  'Николай',
+  'Екатерина',
+  'Анастасия'
+];
 
-    var avatarNumber = 6;
-    var commentsMin = 0;
-    var commentsMax = 30;
-    var userPosts = 25;
-    var minLikes = 15;
-    var maxLikes = 200;
+var avatarNumber = 6;
+var commentsMin = 0;
+var commentsMax = 30;
+var userPosts = 25;
+var minLikes = 15;
+var maxLikes = 200;
 
-    var randomNumber = function (from, to) {
-      return Math.round(Math.random() * (to - from) + from);
-    };
+var randomNumber = function (from, to) {
+  return Math.round(Math.random() * (to - from) + from);
+};
 
-    var getRandomItem = function (items) {
-      return items[randomNumber(0, items.length - 1)];
-    };
+var getRandomItem = function (items) {
+  return items[randomNumber(0, items.length - 1)];
+};
 
-    var randomComment = function () {
-      return {
-        avatar: 'img/avatar-' + randomNumber(1, 6) + '.svg',
-        message: getRandomItem(COMMENTS),
-        name: getRandomItem(userNames)
-      };
-    };
+var randomComment = function () {
+  return {
+    avatar: 'img/avatar-' + randomNumber(1, 6) + '.svg',
+    message: getRandomItem(COMMENTS),
+    name: getRandomItem(userNames)
+  };
+};
 
-    var randomComments = function () {
-      var comments = [];
-      for (var i = 0; i < avatarNumber; i++) {
-        comments.push(randomComment());
-      }
-      return comments;
-    };
+var randomComments = function () {
+  var comments = [];
+  for (var i = 0; i < avatarNumber; i++) {
+    comments.push(randomComment());
+  }
+  return comments;
+};
 
-    var randomUserPhotos = function () {
-      var randomUserPhotos = [];
-      for (var i = 0; i < userPosts; i++) {
-        randomUserPhotos.push({
-          url: 'photos/' + (i + 1) + '.jpg',
-          desctiption: 'Описание фотографии',
-          likes: randomNumber(minLikes, maxLikes),
-          comments: randomComments()
-        });
-      }
-      return randomUserPhotos;
-    };
+var randomUserPhotos = function () {
+  var randomUserPhotos = [];
+  for (var i = 0; i < userPosts; i++) {
+    randomUserPhotos.push({
+      url: 'photos/' + (i + 1) + '.jpg',
+      desctiption: 'Описание фотографии',
+      likes: randomNumber(minLikes, maxLikes),
+      comments: randomComments()
+    });
+  }
+  return randomUserPhotos;
+};
 
-    var createUserPhotoElement = function (userPhoto) {
-      var userPhotoElement = userPhotoTemplateElement.cloneNode(true);
+var createUserPhotoElement = function (userPhoto) {
+  var userPhotoElement = userPhotoTemplateElement.cloneNode(true);
 
-      userPhotoElement.querySelector('.picture__img').src = userPhoto.url;
-      userPhotoElement.querySelector('.picture__comments').textContent = userPhoto.comments.length + randomNumber(commentsMin, commentsMax);
-      userPhotoElement.querySelector('.picture__likes').textContent = userPhoto.likes;
+  userPhotoElement.querySelector('.picture__img').src = userPhoto.url;
+  userPhotoElement.querySelector('.picture__comments').textContent = userPhoto.comments.length + randomNumber(commentsMin, commentsMax);
+  userPhotoElement.querySelector('.picture__likes').textContent = userPhoto.likes;
 
-      return userPhotoElement;
-    };
+  return userPhotoElement;
+};
 
-    var renderUserPhotos = function (photos) {
-      var fragment = document.createDocumentFragment();
-      for (var i = 0; i < photos.length; i++) {
-        fragment.appendChild(createUserPhotoElement(photos[i]));
-      }
-      picturesElement.appendChild(fragment);
-    };
+var renderUserPhotos = function (photos) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < photos.length; i++) {
+    fragment.appendChild(createUserPhotoElement(photos[i]));
+  }
+  picturesElement.appendChild(fragment);
+};
 
-    var photos = randomUserPhotos();
+var photos = randomUserPhotos();
 
-    var userPhotoTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
-    var picturesElement = document.querySelector('.pictures');
+var userPhotoTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
+var picturesElement = document.querySelector('.pictures');
 
-    renderUserPhotos(photos);
+renderUserPhotos(photos);
 
-    var renderUserPhotos = function (photos) {
+var renderUserPhotos = function (photos) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < photos.length; i++) {
     fragment.appendChild(createUserPhotoElement(photos[i]));
