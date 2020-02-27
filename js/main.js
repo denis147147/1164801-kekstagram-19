@@ -87,14 +87,6 @@ var picturesElement = document.querySelector('.pictures');
 
 renderUserPhotos(photos);
 
-var renderUserPhotos = function (photos) {
-  var fragment = document.createDocumentFragment();
-  for (var i = 0; i < photos.length; i++) {
-    fragment.appendChild(createUserPhotoElement(photos[i]));
-  }
-  picturesElement.appendChild(fragment);
-};
-
 var createComment = function (comment) {
   var commentElement = commentsTemplateElement.cloneNode(true);
 
