@@ -82,9 +82,6 @@ var renderUserPhotos = function (photos) {
 
 var photos = generateRandomUserPhotos();
 
-var userPhotoTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
-var picturesElement = document.querySelector('.pictures');
-
 renderUserPhotos(photos);
 
 var createComment = function (comment) {
@@ -111,12 +108,10 @@ var renderComments = function (comments) {
 var renderFullSizePhoto = function (index) {
   fullSizePhotoElement.querySelector('img').src = photos[index].url;
   fullSizePhotoElement.querySelector('.likes-count').textContent = photos[index].likes;
-  fullSizePhotoElement.querySelector('.comments-count').textContent = photos[index].comments.length + generateRandomNumber(COMMENTS_COUNT_MIN, COMMENTS_COUNT_MAX);
+  fullSizePhotoElement.querySelector('.comments-count').textContent = photos[index].comments.length + randomNumber(commentsMin, commentsMax);
   fullSizePhotoElement.querySelector('.social__caption').textContent = photos[index].description;
-  renderComments(generateRandomComments());
+  renderComments(randomComment());
 };
-
-var photos = generateRandomUserPhotos();
 
 var userPhotoTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
 var picturesElement = document.querySelector('.pictures');
