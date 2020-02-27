@@ -49,7 +49,7 @@ var randomComments = function () {
   return comments;
 };
 
-var randomUserPhotos = function () {
+var generateRandomUserPhotos = function () {
   var randomUserPhotos = [];
   for (var i = 0; i < userPosts; i++) {
     randomUserPhotos.push({
@@ -80,7 +80,7 @@ var renderUserPhotos = function (photos) {
   picturesElement.appendChild(fragment);
 };
 
-var photos = randomUserPhotos();
+var photos = generateRandomUserPhotos();
 
 var userPhotoTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
 var picturesElement = document.querySelector('.pictures');
