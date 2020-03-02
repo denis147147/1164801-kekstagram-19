@@ -9,7 +9,7 @@ var COMMENTS = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-var userNames = [
+var USER_NAMES = [
   'Cергей',
   'Федя',
   'Василий',
@@ -18,45 +18,39 @@ var userNames = [
   'Анастасия'
 ];
 
-var avatarNumber = 6;
-var commentsMin = 0;
-var commentsMax = 30;
-var userPosts = 25;
-var minLikes = 15;
-var maxLikes = 200;
 
-var randomNumber = function (from, to) {
+var generateRandomNumber = function (from, to) {
   return Math.round(Math.random() * (to - from) + from);
 };
 
 var getRandomItem = function (items) {
-  return items[randomNumber(0, items.length - 1)];
+  return items[generateRandomNumber(0, items.length - 1)];
 };
 
-var randomComment = function () {
+var generateRandomComment = function () {
   return {
-    avatar: 'img/avatar-' + randomNumber(1, 6) + '.svg',
-    message: getRandomItem(COMMENTS),
-    name: getRandomItem(userNames)
+    avatar: 'img/avatar-' + generateRandomNumber(1, 6) + '.svg',
+    message: getRandomItem(MESSAGES),
+    name: getRandomItem(USER_NAMES)
   };
 };
 
-var randomComments = function () {
+var generateRandomComments = function () {
   var comments = [];
-  for (var i = 0; i < avatarNumber; i++) {
-    comments.push(randomComment());
+  for (var i = 0; i < COMMENTS_LIMIT; i++) {
+    comments.push(generateRandomComment());
   }
   return comments;
 };
 
 var generateRandomUserPhotos = function () {
   var randomUserPhotos = [];
-  for (var i = 0; i < userPosts; i++) {
+  for (var i = 0; i < USER_PHOTOS_LIMIT; i++) {
     randomUserPhotos.push({
       url: 'photos/' + (i + 1) + '.jpg',
-      desctiption: 'Описание фотографии',
-      likes: randomNumber(minLikes, maxLikes),
-      comments: randomComments()
+      description: 'Описание фотографии',
+      likes: generateRandomNumber(LIKES_COUNT_MIN, LIKES_COUNT_MAX),
+      comments: generateRandomComments()
     });
   }
   return randomUserPhotos;
@@ -66,7 +60,7 @@ var createUserPhotoElement = function (userPhoto) {
   var userPhotoElement = userPhotoTemplateElement.cloneNode(true);
 
   userPhotoElement.querySelector('.picture__img').src = userPhoto.url;
-  userPhotoElement.querySelector('.picture__comments').textContent = userPhoto.comments.length + randomNumber(commentsMin, commentsMax);
+  userPhotoElement.querySelector('.picture__comments').textContent = userPhoto.comments.length + generateRandomNumber(COMMENTS_COUNT_MIN, COMMENTS_COUNT_MAX);
   userPhotoElement.querySelector('.picture__likes').textContent = userPhoto.likes;
 
   return userPhotoElement;
@@ -79,10 +73,6 @@ var renderUserPhotos = function (photos) {
   }
   picturesElement.appendChild(fragment);
 };
-
-var photos = generateRandomUserPhotos();
-
-renderUserPhotos(photos);
 
 var createComment = function (comment) {
   var commentElement = commentsTemplateElement.cloneNode(true);
@@ -108,10 +98,12 @@ var renderComments = function (comments) {
 var renderFullSizePhoto = function (index) {
   fullSizePhotoElement.querySelector('img').src = photos[index].url;
   fullSizePhotoElement.querySelector('.likes-count').textContent = photos[index].likes;
-  fullSizePhotoElement.querySelector('.comments-count').textContent = photos[index].comments.length + randomNumber(commentsMin, commentsMax);
+  fullSizePhotoElement.querySelector('.comments-count').textContent = photos[index].comments.length + generateRandomNumber(COMMENTS_COUNT_MIN, COMMENTS_COUNT_MAX);
   fullSizePhotoElement.querySelector('.social__caption').textContent = photos[index].description;
-  renderComments(randomComment());
+  renderComments(generateRandomComments());
 };
+
+var photos = generateRandomUserPhotos();
 
 var userPhotoTemplateElement = document.querySelector('#picture').content.querySelector('.picture');
 var picturesElement = document.querySelector('.pictures');
