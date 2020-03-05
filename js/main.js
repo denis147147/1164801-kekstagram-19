@@ -39,13 +39,13 @@ var getRandomItem = function (items) {
 var generateRandomComment = function (commentsNumber) {
   var comments = [];
   for (var i = 0; i < commentsNumber; i++){
-    comments.push ({
-        avatar: 'img/avatar-' + generateRandomNumber(AVATAR_MIN, AVATAR_MAX) + '.svg',
-        message: MESSAGES [getRandomItem(1,COMMENTS_LIMIT)],
-        name: USER_NAMES [getRandomItem(1,(USER_NAMES.length - 1))]
-      });
-    return comments;
+    var comment = {
+      avatar: 'img/avatar-' + generateRandomNumber(AVATAR_MIN, AVATAR_MAX) + '.svg',
+      message: MESSAGES [getRandomItem(1,COMMENTS_LIMIT)],
+      name: USER_NAMES [getRandomItem(1,(USER_NAMES.length - 1))]
+    };
   }
+  return comments;
 };
 
 var generateRandomUserPhotos = function (userPhotos) {
@@ -55,21 +55,18 @@ var generateRandomUserPhotos = function (userPhotos) {
       url: 'photos/' + (i + 1) + '.jpg',
       desctiption: 'Описание фотографии',
       likes: generateRandomNumber(LIKES_COUNT_MIN, LIKES_COUNT_MAX),
-      comments: generateRandomComment()
+      comments: generateRandomComment(AVATAR_MIN, AVATAR_MAX)
     };
-    randomUserPhotos.push(photo);
   }
   return randomUserPhotos;
 };
 
-
-
 var createUserPhotoElement = function (userPhoto) {
   var userPhotoElement = userPhotoTemplateElement.cloneNode(true);
 
-  userPhotoElement.querySelector('.picture__img').src = userPhoto.url;
-  userPhotoElement.querySelector('.picture__comments').textContent = userPhoto.comments.length + generateRandomNumber(COMMENTS_COUNT_MIN, COMMENTS_COUNT_MAX);
-  userPhotoElement.querySelector('.picture__likes').textContent = userPhoto.likes;
+  userPhotoElement.querySelector('.picture__img').src = photo.url;
+  userPhotoElement.querySelector('.picture__comments').textContent = photo.comments.length + generateRandomNumber(COMMENTS_COUNT_MIN, COMMENTS_COUNT_MAX);
+  userPhotoElement.querySelector('.picture__likes').textContent = photo.likes;
 
   return userPhotoElement;
 };
