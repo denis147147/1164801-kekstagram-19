@@ -29,7 +29,7 @@ var getRandomItem = function (items) {
 
 var generateRandomComment = function () {
   return {
-    avatar: 'img/avatar-' + generateRandomNumber(1, 6) + '.svg',
+    avatar: 'img/avatar-' + generateRandomNumber(AVATAR_MIN, AVATAR_MAX) + '.svg',
     message: getRandomItem(MESSAGES),
     name: getRandomItem(USER_NAMES)
   };
@@ -43,15 +43,15 @@ var generateRandomComments = function () {
   return comments;
 };
 
-var generateRandomUserPhotos = function () {
+var generateRandomUserPhotos = function (userPhotos) {
   var randomUserPhotos = [];
-  for (var i = 0; i < USER_PHOTOS_LIMIT; i++) {
-    randomUserPhotos.push({
+  for (var i = 0; i < userPhotos; i++) {
+    var photo = {
       url: 'photos/' + (i + 1) + '.jpg',
-      description: 'Описание фотографии',
+      desctiption: 'Описание фотографии',
       likes: generateRandomNumber(LIKES_COUNT_MIN, LIKES_COUNT_MAX),
-      comments: generateRandomComments()
-    });
+      comments: generateRandomComment(AVATAR_MIN, AVATAR_MAX)
+    };
   }
   return randomUserPhotos;
 };
@@ -95,11 +95,11 @@ var renderComments = function (comments) {
   commentsElement.appendChild(fragment);
 };
 
-var renderFullSizePhoto = function (index) {
-  fullSizePhotoElement.querySelector('img').src = photos[index].url;
-  fullSizePhotoElement.querySelector('.likes-count').textContent = photos[index].likes;
-  fullSizePhotoElement.querySelector('.comments-count').textContent = photos[index].comments.length + generateRandomNumber(COMMENTS_COUNT_MIN, COMMENTS_COUNT_MAX);
-  fullSizePhotoElement.querySelector('.social__caption').textContent = photos[index].description;
+var renderFullSizePhoto = function (sizePhoto) {
+  fullSizePhotoElement.querySelector('img').src = photos.url;
+  fullSizePhotoElement.querySelector('.likes-count').textContent = generateRandomUserPhotos.photos.likes;
+  fullSizePhotoElement.querySelector('.comments-count').textContent = generateRandomUserPhotos.photos.comments.length;
+  fullSizePhotoElement.querySelector('.social__caption').textContent = generateRandomUserPhotos.photos.description;
   renderComments(generateRandomComments());
 };
 
